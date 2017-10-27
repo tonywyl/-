@@ -1,0 +1,72 @@
+{% extends 'home_layout.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--返回这个博客的文章首页-->
+{% block personal_index2 %}
+{% for personal in category_list %}
+/{{ personal.blog.site }}
+{% endfor %}
+{% endblock %}
+
+
+<!--获取文章category分类的文章标题-->
+{% block category_2 %}
+{% for category2 in category_list %}
+    <div class="forFlow">
+        <div class="day">
+            <div class="postTitle">
+                <a href="">aaaaaaaaa{{ category2.title }} {{ category2.category.title }}</a>
+            </div>
+            <div class="postCon">{{ category2.summary }}</div>
+        </div>
+        <div class="postDesc">
+            文章发布时间：{{ category2.create_time }}
+            发布者：{{ category2.blog.user.username }}
+            阅读次数：{{ category2.read_count }}
+            评论次数：{{ category2.comment_count }}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
+
+
+<!--获取文章分类页面的用户数据 -->
+{% block category_userinfo %}
+{{ user_condition.avatar }}
+{% endblock %}
+
+
+<!--用户昵称获取-->
+{% block blog_nickname2 %}
+{% for category_user in category_list %}
+{{ category_user.user.nickname }}
+{% endfor %}
+{% endblock %}
+
+<!--左侧文章分类title-->
+{% block blog_category %}
+{% for category_left in category_left_list %}
+<li><a href="/category/{{ category_left.category_id }}/{{ category_left.blog_id }}.html">
+{{ category_left.category__title }} ({{ category_left.c }})
+</a>
+</li>
+{% endfor %}
+{% endblock %}
+
+<!--获取这个博客的tag-->
+{% block articletag %}
+{% for current_tag  in article2tag %}
+     {% if current_tag.tags__title %}
+        <li style="text-decoration: none"><a href="">{{ current_tag.tags__title }}({{ current_tag.c }})</a></li>
+    {% else %}
+    {% endif %}
+{% endfor %}
+{% endblock %}
+
+</body>
+</html>

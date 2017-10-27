@@ -1,0 +1,88 @@
+{#{% extends 'layout.html' %}#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>content</title>
+</head>
+<body>
+
+<div>
+
+</div>
+<div id="commentArea">
+{% for con in content %}
+{{ con.articledetail__content }}
+{% endfor %}
+</div>
+
+
+<script src="/static/jquery-3.2.1.js"></script>
+<script>
+
+
+//    自定义方法format
+    String.prototype.Format=function (arg) {
+        /*
+        console.log(this,arg)//this 就是asf(当前字符串), arg是参数(Format方法传入的参数 ）
+                例如有一个字符串是这样：
+                    this 就是 " i am {name} ,age {age}
+                    arg 就是 '{name} {age}'
+        return 111; 格式化之后获取的新内容
+        */
+        var temp=this.replace(/\{(\w+)\}/g,function (k,kk) {
+                                                /* k 匹配到的是 {asf},然后kk再对上一次进行匹配得到的是asf,然后arg字典返回了一个,=*/
+            return arg[kk];
+
+        });
+        return temp;
+    };
+
+//    v='{asf}';
+//    v.Format;
+  $(function () {
+    $.ajax({
+        url:'/comments',
+        type:'GET',
+        dataType:'JSON',
+        success:function (arg) {
+            if (arg.status){
+                var comment=commentTree(arg.data);
+                $('#commentArea').append(comment);
+            }else{
+                alter(arg.msg)
+            }
+        }
+        })
+    });
+
+    function commentTree(commentList) {
+        /*
+        * commentList 是上面通过ajax 从后端获取的评论结果，
+        *
+        * */
+        var comment_str="<div class='comment'>";
+        $.each(
+            commentList,function (k,row) {
+                 /*k 是索引，row是字典里的值*/
+                var temp="<div class='content'>{content}</div>".Format({content:row.content})
+                comment_str+=temp;
+                if (row.child.length()>0){
+                    comment_str+=commentTree(row.child);
+                }
+            });
+
+            comment_str+='</div>';
+            return comment_str;
+    }
+
+/*
+1、在前端调用对象方法时，通过调用类的prototype中的方法，可以像上面一样扩展
+
+2、还可以写正则表达式 如：/\w+/ 加g则是表示全部，
+3、还有个replace 方法，通过的方法是  ''.replace('tony','ha')
+''.replace(/(\w+)/g,function(k,kk){return 结果;}) 这个结果就是替换的结果
+ */
+</script>
+</body>
+</html>

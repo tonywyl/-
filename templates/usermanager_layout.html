@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>门派</title>
+    <link rel="stylesheet" href="/static/css.css">
+    <link rel="stylesheet" href="/static/css/commons.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+</head>
+<body>
+<div class="pg-header">
+    <div class="logo left">后台管理</div>
+    <div class="right avatar">
+        <img src="/static/img/my.jpg" style="width: 40px; height: 40px;" alt="">
+        <div class="userinfo" style="">
+            <a href="">个人资料</a>
+            <a href="/login/">注销</a>
+        </div>
+
+    </div>
+    <div class="rmenus right ">
+        <a>{% block role %}{% endblock %}</a>
+        <a>邮件</a>
+    </div>
+</div>
+<div class="pg-body">
+        <div class="menus1">menu
+            <!--权限操作区域-->
+            <div>
+                {% block permission %} {% endblock %}
+                <ul id="cls_manager" class="cls_manager">
+                    <p><a href="/class_list/" style="display: block;">{% block action %}{% endblock %}</a></p>
+                    <li><a href="/">{% block permission_url %}{% endblock %}</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <a href="/student_list/"></a>
+            </div>
+
+            <a><ul>其它</ul></a>
+
+        </div>
+
+        <div class="content1">
+            <ol class="breadcrumb">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Library</a></li>
+              <li class="active">Data</li>
+            </ol>
+            <div style="width: 500px">
+
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+<script src="/static/jquery-3.2.1.js"></script>
+<script>
+    function class_manage(self) {
+        var li_man=$(self).siblings('#cls_manager');
+        console.log(li_man);
+        li_man.show();
+    }
+    $('#class_manage')
+
+</script>
+</html>

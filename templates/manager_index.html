@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+</head>
+<body>
+
+
+        <h3>筛选大分类</h3>
+    <p>
+        {% for type in type_list %}
+            {% if type.0 == kwargs.article_type_id %}
+                <a href="/manager_index/{{ type.0 }}-{{ kwargs.category_id }}-{{ kwargs.tags__nid }}.html" style="display: inline-block; background-color: #269abc; padding: 10px">{{ kwargs.tags__nid }}{{ type.0 }}{{ type.1 }}</a>
+            {% else %}
+                <a href="/manager_index/{{ type.0 }}-{{ kwargs.category_id }}-{{ kwargs.tags__nid }}.html" >{{ kwargs.tags__nid }}{{ type.0 }}{{ type.1 }}</a>
+            {% endif %}
+        {% endfor %}
+
+    </p>
+
+    <p>
+        <h3>个人分类 </h3>
+        {% for category in category_list %}
+            {% if category.nid == kwargs.category_id %}
+                <a href="/manager_index/{{ kwargs.article_type_id }}-{{ category.nid }}-{{ kwargs.tags__nid }}.html" style="display: inline-block; background-color: #269abc; padding: 10px">{{ category.nid }}{{ category.title }}</a>
+            {% else %}
+                <a href="/manager_index/{{ kwargs.article_type_id }}-{{ category.nid }}-{{ kwargs.tags__nid }}.html" >{{ category.nid }}{{ category.title }}</a>
+            {% endif %}
+        {% endfor %}
+    </p>
+    <p>
+        <h3>个人标签</h3>
+        {% for tag in tag_list %}
+            {% if tag.nid == kwargs.tags__nid %}
+                <a href="/manager_index/{{ kwargs.article_type_id }}-{{ kwargs.category_id }}-{{ tag.nid }}.html" style="display: inline-block; background-color: #269abc; padding: 10px">{{ tag.nid }}{{ tag.title }}</a>
+            {% else %}
+                <a href="/manager_index/{{ kwargs.article_type_id }}-{{ kwargs.category_id }}-{{ tag.nid }}.html" >{{ tag.nid }}{{ tag.title }}</a>
+            {% endif %}
+
+        {% endfor %}
+
+    </p>
+    <p>
+        文章简介
+        {% for article in article_list %}
+            <a href="" >{{ article.title }}</a>
+            <a href="/edit_article/{{ kwargs.article_type_id }}-{{ kwargs.category_id }}-{{ kwargs.tags__nid }}.html" style="margin-left: 30px">
+                编辑文章
+            </a>
+            <a href="#">删除</a>
+            <a href="#">增加文章</a>
+            <p>{{ article.summary }}</p>
+        {% endfor  %}
+    </p>
+
+    <div>
+    </div>
+
+
+
+</body>
+
+</html>

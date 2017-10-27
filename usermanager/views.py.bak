@@ -1,0 +1,400 @@
+from django.shortcuts import render,HttpResponse,redirect
+from usermanager import models
+from django.db.models import Q,Count
+import re
+# Create your views here.
+def usermanager(request,**kwargs):
+    user_id=kwargs.get('user_id')
+    role_id=[]
+    user_role=models.User2Role.objects.filter(user_id=user_id)
+    # print(user_role.role_id)
+
+    for row in user_role:
+        role_id.append(row.id)
+
+    # print(role_id)
+
+    permission=models.Permission2Action2Role.objects.filter(role_id__in=role_id)
+
+    permission_list=[]
+    for row1 in permission:
+        permission_list.append(row1.permission_id)
+
+    permissionone=models.Permission.objects.filter(id__in=permission_list)
+
+    menu_list=[]
+    for row2 in permissionone:
+        # print(row2.url)
+        menu_list.append(row2.menu_id)
+
+
+
+
+    #不用循环
+
+    user_role = models.User2Role.objects.filter(user_id=user_id).values('role_id')
+    print(user_role)
+
+    permission=models.Permission2Action2Role.objects.filter(role__in=user_role).values('permission__url','action__caption','role__caption','permission__caption').annotate(c=Count('id'))
+    #<QuerySet [{'permission__url': '/user.html',
+    # 'action__caption': '增加', 'role__caption': '市场部'}, {'permission__url': '/blogs.html', 'action__caption': '增加', 'role__caption': '售后'}]>
+    for row in permission:
+        print(row)
+
+
+    # permission=models.Permission2Action2Role.objects.filter(role=user_role)
+    # print(permission)
+
+
+
+
+
+    # menu=models.Menu.objects.filter(id__in=menu_list)
+    # for row3 in menu:
+    #     print(row3.caption)
+
+    return render(request,'usermanager.html',{
+        'permission':permission,
+    })
+
+
+    # ---------------- 课讲
+
+    obj=models.User.objects.filter(username='tony').first()
+
+    # x=model.User2Role.objects.filter(user__id=obj.id)
+
+    role_list=models.Role.objects.filter(users__user_id=obj.id)
+
+    role_list=models.Role.objects.filter(users__user_id=obj.id)#看User2Role 表，有一个 role字段related_name=users ，就是通过这个字段去关联到角色表的用户ID
+
+    permission_list=models.Permission2Action2Role.objects.filter(role__in=role_list).values('permission__url','action__code').distinct()
+    #将这个用户的相关的权限都已经拿到了,distinct 不会产生多一个字段usermanager_role
+    """
+     [
+     {permission_url:'/index.html', action_code:'GET'},
+     {permission_url:'/index.html', action_code:'DEL'},
+     {permission_url:'/index.html', action_code:'POST'},
+     
+     ]
+     1、当用户一进来的时候，就将这些个查询到的数据，放到session里
+     2、规定用户在访问的时候 /index.html?md=GET  后面的md=GET ,是开发人员规定的。URL中就得多加一个参数
+     3、这些数据都放在session中以后，当这个用户的功能有增加的时候，并不能实时更新，解决方法是，通知用户退出再登录 
+     
+    """
+
+
+    """
+    只要一登录 成功就将下面信息放在session中，GET请求不设置，POST请求执行以下 操作,这些数据都在中间件里写，
+    用户登录进来，在中间件中
+    """
+    user_permission_dict={
+        '/index.html',['GET','POST',"DEL",'Edit'],
+        '/order.html',['GET','POST',"DEL",'Edit'],
+
+    }
+
+    request.session['user_permission_dict']=user_permission_dict
+
+    return HttpResponse('....')
+
+
+
+
+def menu(request):
+
+    all_menu_list=models.Menu.objects.all().values('id','caption','parent_id')
+    #这个所有的菜单是当前用户所关联的菜单
+    # 当前关联的菜单跟当前用户的权限有关系
+    #做成这样的数据
+    """
+    [
+    {'id':1,'caption':'菜单','parent_id':None},
+    {'id':2,'caption':'菜单2','parent_id':None},
+    {'id':3,'caption':'菜单3','parent_id':None},
+    {'id':4,'caption':'菜单4','parent_id':1},
+    ]
+    """
+
+    user=models.User.objects.filter(username='tony').first()
+
+    role_list=models.Role.objects.filter(users__user=user)
+
+    #这里一跨表就到了Role2User 里面
+
+    permisstion_list=models.Permission2Action2Role.objects.filter(role__in=role_list).values('permission_id','permission__url','permission__menu_id','permission__caption').distinct()
+    #数据做成这样
+    """
+    [
+    {'permisstion__url':'order.html','permission__caption':'订单管理','permission__menu_id':11},
+    {'permisstion__url':'order.html','permission__caption':'订单管理','permission__menu_id':11},
+    
+    ]
+    """
+#     做成以上数据步骤
+#  将权限挂靠到菜单上
+    all_menu_dict={}
+
+    for row in all_menu_list:
+        row['child']=[]
+        row['status']=False
+        #表示是否显示，最终在页面上，让该显示的显示
+
+        row['opend']=False
+        #表示当前默认是否应该展开
+        all_menu_dict[row['id']]=row
+
+    """
+    {
+    1:{'id':1,'caption':'菜单','parent_id':None,'status':False,'opend':false,'child':[]},
+    2:['id':1,'caption':'菜单','parent_id':None],
+    
+    ]"""
+    # print(all_menu_dict)
+    #{1: {'opend': False, 'child': [], 'status': False, 'caption': '用户管理', 'id': 1, 'parent_id': None},
+    # 2: {'opend': False, 'child': [], 'status': False, 'caption': '订单管理', 'id': 2, 'parent_id': None},
+    # 3: {'opend': False, 'child': [], 'status': False, 'caption': '博客管理', 'id': 3, 'parent_id': 1},
+    # 4: {'opend': False, 'child': [], 'status': False, 'caption': '任务管理', 'id': 4, 'parent_id': 2},
+    # 5: {'opend': False, 'child': [], 'status': False, 'caption': '待处理任务', 'id': 5, 'parent_id': 4}
+    # }
+
+
+    for per in permisstion_list:
+        if not per['permission__menu_id']:
+            continue
+        item={
+            'id':per['permission_id'],
+            'caption':per['permission__caption'],
+            'parent_id':per['permission__menu_id'],
+            'url':per['permission__url'],
+            'status':True,
+            'opend':False,
+
+        }
+
+    #当前URL
+
+        if re.match(per['permission__url'],request.path_info):
+            item['opend']=True
+
+        pid=item['parent_id']
+
+        all_menu_dict[item['parent_id']]['child'].append(item)
+
+        # all_menu_dict[pid]['status']=True
+        # all_menu_dict[all_menu_dict[pid]['parent_id']]['status']=True
+
+
+        #挂靠uRL到自己的父级
+        # 方法一
+        # temp = pid  # 1、父ID
+        # while True:
+        #     if not all_menu_dict[temp]:
+        #         break
+        #     else:
+        #         all_menu_dict[temp]['status']=True
+        #         temp=all_menu_dict[temp]['parent_id']
+
+        #方法二：将当前权限前辈的[status]=True
+        temp=pid
+        while not all_menu_dict[temp]['status']:
+            all_menu_dict[temp]['status']=True
+            temp=all_menu_dict[temp]['parent_id']
+            if not temp:
+                break
+    #     将当前权限前辈opend=True
+        if item['opend']:
+            temp1= pid
+            while not all_menu_dict[temp1]['opend']:
+                all_menu_dict[temp1]['opend'] = True
+                temp = all_menu_dict[temp1]['parent_id']
+
+                if not temp1:
+                    break
+
+
+
+
+
+
+    # print(item)#{'opend': False, 'id': 3, 'parent_id': 1, 'status': True, 'url': '/blogs.html', 'caption': '博客管理'}
+    # print(all_menu_dict)#
+    #{1: {'opend': False, 'caption': '用户管理', 'status': False, 'parent_id': None, 'id': 1,
+                    # 'child': [{'url': '/blogs.html', 'opend': False, 'caption': '博客管理', 'status': True, 'parent_id': 1, 'id': 3}]},
+    # 2: {'opend': False, 'caption': '订单管理', 'status': False, 'parent_id': None, 'id': 2, 'child': []},
+    # 3: {'opend': False, 'caption': '博客管理', 'status': False, 'parent_id': 1, 'id': 3, 'child': [{'url': '/user.html', 'opend': False, 'caption': '用户管理', 'status': True, 'parent_id': 3, 'id': 1}]},
+    # 4: {'opend': False, 'caption': '任务管理', 'status': False, 'parent_id': 2, 'id': 4, 'child': []}, 5: {'opend': False, 'caption': '待处理任务', 'status': False, 'parent_id': 4, 'id': 5, 'child': []}
+    # }
+
+    # ######处理菜单和菜单之间的等级关系#
+
+    result=[]#最终结构化数据结果
+    for row in all_menu_list:
+        pid=row['parent_id']
+        if pid:
+            all_menu_dict[pid]['child'].append(row)
+        else:
+            result.append(row)
+
+
+    print(result)
+    # [{'child': [{'opend': False, 'status': True, 'parent_id': 1, 'id': 3, 'url': '/blogs.html', 'caption': '博客管理'},
+    #  {'child': [{'opend': False, 'status': True, 'parent_id': 3, 'id': 1, 'url': '/user.html', 'caption': '用户管理'}], 
+    # 'status': True, 'parent_id': 1, 'id': 3, 'caption': '博客管理', 'opend': False}],
+    #  'status': True, 'parent_id': None, 'id': 1, 'caption': '用户管理', 'opend': False},
+    #  {'child': [{'child': [{'child': [], 'status': False, 'parent_id': 4, 'id': 5, 'caption': '待处理任务', 'opend': False}], 'status': False, 'parent_id': 2, 'id': 4, 'caption': '任务管理', 'opend': False}], 'status': False, 'parent_id': None, 'id': 2, 'caption': '订单管理', 'opend': False}]
+    # 处理结果
+    # for row1 in result:
+    #     print(row['caption'],row['status'],row['opend'])
+    #
+    #
+    # ##### 生成 菜单
+    # """
+    # status=False 不生成 标签
+    # opend=True 就打开菜单，不加hide的表示显示,False表示加hide
+    # <div class='menu-item'>
+    #     <div class='menu-header'>菜单1</div>
+    #     <div class='menu-body'>
+    #         <a>权限1 </a>
+    #         <a>权限2 </a>
+    #         <div class='menu-item'>
+    #             <div class='menu-header'>菜单1</div>
+    #             <div class='menu-body'>
+    #                 <a>权限1 </a>
+    #                 <a>权限2 </a>
+    #             </div>
+    #         </div>
+    #      </div>
+    # </div>
+    # <div class='menu-item'>
+    #     <div class='menu-header hide'>菜单3</div>
+    #     <div class='menu-body'>
+    #         <a>权限1 </a>
+    #         <a>权限2 </a>
+    #     </div>
+    # </div>
+    # """
+    #
+    # tpl1="""
+    #     <div class='menu-item'>
+    #     <div class='menu-header'>{0}</div>
+    #     <div class='menu-body {2}'>{1}</div>
+    # </div>
+    # """
+    #
+    # def menu_tree(menu_list):
+    #     tpl1 = """
+    #         <div class='menu-item'>
+    #         <div class='menu-header'>{0}</div>
+    #         <div class='menu-body {2}'>{1}</div>
+    #     </div>
+    #     """
+    #     tpl2="""
+    #     <a href='{0}' class='{1}'>{2}</a>
+    #     """
+    #     menu_str=''
+    #     for menu in menu_list:
+    #         if not menu['status']:
+    #             continue
+    #         active=''
+    #         if menu['opend']:
+    #             active='active'
+    #         if menu.get('url'):
+    #             #权限
+    #             menu_str+=tpl2.format(menu['url'],'active' if menu['opend'] else '',menu['caption'])
+    #         else:
+    #             #菜单
+    #             #如果是菜单就还有child
+    #             if menu.get('child'):
+    #                 child_html=menu_list(menu.get('child'))
+    #             else:
+    #                 child_html=''
+    #             menu_str+=tpl1.format(menu['caption'],child_html,'' if menu['opend'] else 'hide')
+    #
+    #         return menu_str
+    #
+    # menu_html=menu_tree(result)
+
+    # ####生成菜单
+    return HttpResponse('..')
+    # return render(request,'menus.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

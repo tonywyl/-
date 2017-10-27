@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/publish/" method="POST" novalidate>
+    {% csrf_token %}
+    <p>
+    文章标题: {{ obj.title }}
+    </p>
+    <div>
+        <div>文章内容</div>
+        {{ obj.content }}
+    </div>
+    <!--<textarea name="content" id="i1" cols="30" rows="10">-->
+     <!--</textarea>-->
+
+    <input type="submit" value="submit">
+</form>
+
+<script src="/static/kindeditor-4.1.10/kindeditor-all.js"></script>
+<script>
+    KindEditor.create('#i1',{
+        width:'700px',
+        height:'500px',
+//        控制显示的工具
+        items:[
+       'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+        'anchor', 'link', 'unlink', '|', 'about'
+],
+//        显示出来的工具，但是不让用，显示灰色
+//         noDisableItems:['undo','redo'],
+//        designMode:false,
+
+//        评论里面的上传文件
+        uploadJson:'/upload_img',//对应的url
+        extraFileUploadParams:{
+            'csrfmiddlewaretoken':'{{ csrf_token }}'
+        }
+    }
+
+    )
+</script>
+</body>
+</html>

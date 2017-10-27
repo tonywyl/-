@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block blog_site %}{% endblock %}-博客</title>
+    {% block comment_css %}{% endblock %}
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/commons.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body style="background-color: #f4ede3">
+<div id="home">
+     <div class="home-header">
+        <div class="home-blog-title">
+            <h1>{% block blog_title %}{% endblock %}</h1>
+        </div>
+         <div class="navigator">
+             <ul id="navList">
+                 <li><a href="/index/">技术论坛</a></li>
+                 <li><a href="{% block personal_index %}{% endblock %}{% block personal_index2 %}{% endblock %}">首页</a></li>
+                 <li><a href="/manger/">管理</a></li>
+                 <li><a href="/index/">杂谈</a></li>
+             </ul>
+             <div id="blogStats">
+                 <div id="blog_stats">
+                     <span id="stats_post_count">随笔</span>
+                     <span id="stats_article_count">文章</span>
+                     <span id="stats-comment_count">评论</span>
+                 </div>
+             </div>
+         </div>
+
+     </div>
+    <!--头部end-->
+
+    <div id="main">
+        <div id="mainContent">
+            {% include 'current_all_article.html' %}
+            {#{% block blog2article_title %}{% endblock %}#}
+            {% block category_2 %}{% endblock %}
+
+            <!--文章详细页-->
+            {% block detail %}{% endblock %}
+            {% block comment %}
+            {% endblock %}
+        </div>
+       <!--end forFlow-->
+
+    <!--end: mainContent 主体容器-->
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div class="newsItem">
+                    <h5 class="catListTitle">公告</h5>
+                    <div id="blog-news">
+                        <img src="{% block blog_avatar %}{% endblock %}{% block category_userinfo %}{% endblock %}"  style="border-radius:60%; width: 175px;" alt="">
+                        <div id="profile_block">
+                            昵称：<span>{% block blog_nickname %}{% endblock %}{% block blog_nickname2 %}{% endblock %}</span>
+                            粉丝：
+                            关注：
+                            <div id="p_b_follow">
+                                <a href=""></a>+加关注：
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="leftcontentcontainer">
+                    <div id="blog-sidecolumn">
+                        <div id="sidebar_categories">
+                            <div id="sidebar_postcategory">
+                                <h3>文章分类</h3>
+                                <ul>
+                                    <!--获取文章标签-->
+                                   {% include 'category_model.html' %}
+                                    {% block blog_category %}{% endblock %}
+                                </ul>
+                            </div>
+                            <div id="sidebar_postarchive">
+                                <h3>随笔档案</h3>
+                                <ul>
+                                    <li><a href="">{% block article_date %}{% endblock %}</a></li>
+                                </ul>
+                            </div>
+                            <div id="sidebar_articletag">
+                                <h3>标签</h3>
+                                <ul>
+                                    {% block articletag %} {% endblock %}
+                                    {% include 'tag_model.html' %}
+                                </ul>
+                                <!--<h3>文章分类</h3>-->
+                                <!--<ul>-->
+                                    <!--<li>python开发之路</li>-->
+                                <!--</ul>-->
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+</div>
+{% block comment_js %}{% endblock %}
+</body>
+</html>

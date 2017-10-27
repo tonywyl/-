@@ -1,0 +1,6 @@
+{% for category1 in blog_count %}
+<li><a href="/category/{{ category1.category_id }}/{{ category1.blog_id }}.html">
+{{ category1.category__title }} ({{ category1.c }})
+</a>
+</li>
+{% endfor %}

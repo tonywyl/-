@@ -1,0 +1,72 @@
+{% extends 'home_layout.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+        <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/commons.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body>
+<!--个人博客主题语录-->
+{% block blog_title %}
+{{ blog.title }}
+{% endblock %}
+
+<!--个人博客title-->
+{% block blog_site %}
+{{ blog.site }}
+{% endblock %}
+
+<!-- 个人博客首页-->
+{% block personal_index %}
+{{ blog.site }}
+{% endblock %}
+
+
+<!--用户博客头像-->
+{% block blog_avatar %}
+{{ blog.user.avatar }}
+{% endblock %}
+
+<!--昵称-->
+{% block blog_nickname %}
+{{ blog.user.nickname }}
+{% endblock %}
+
+<!--获取个人博客分类 -->
+
+<!--获取当前博客的所有文章-->
+{% block blog2article_title %}
+{% for article  in article_list %}
+    <div class="forFlow">
+        <div class="day">
+            <div class="postTitle">
+                <a href="">{{ article.title }}</a>
+            </div>
+            <div class="postCon">{{ article.summary }}</div>
+        </div>
+        <div class="postDesc">
+            文章发布时间：{{ article.create_time }}
+            发布者：{{ article.blog.user.username }}
+            阅读次数：{{ article.read_count }}
+            评论次数：{{ article.comment_count }}
+
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
+
+
+
+
+<!--获取文章时间-->
+{% block article_date%}
+{% for at in date_list %}
+{{ at.c }}:({{ at.ct }})
+{% endfor %}
+{% endblock %}
+
+</body>
+</html>

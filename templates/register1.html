@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="/static/css.css">
+    <link rel="stylesheet" href="/static/css/commons.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+</head>
+<body>
+
+ <div class="pg-header">
+        <div class="pg-body col-xs-12">
+            <div class="logo left"><a href="" style="color: yellow; font-size: 20px">技术论坛</a></div>
+            <div class="right rmenus">
+                <a href="/" style="color: yellow;">首页</a>
+                <a href="/login/" style="color: yellow;">登录</a>
+                <a href="/register/" style="color: white;">帮助</a>
+            </div>
+        </div>
+ </div>
+
+<div class="register_all ">
+    <div class="register_one">
+        <div class="register_title"><h3>注册新用户</h3></div>
+        <form id="f1" class="form-horizontal" method="POST" action="/register/" enctype="multipart/form-data">
+            <h3>{{ obj.non_field_errors }}</h3>
+            {% csrf_token %}
+            <div class="avatar1">
+
+                    <img id='previewimg' style="border-radius:20px;height: 220px; width: 230px;" src="/static/img/register.jpeg" alt="">
+                    <a href="" class="avatar-a btn btn-primary">选择图片</a>
+                    <!--<input id='imgSelect' type="file" class="avatar_input">-->
+                    {{ obj.avatar }}{{ obj.avatar.errors.0 }}
+            </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+               {{ obj.username }}{{ obj.errors.username.0 }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-10">
+
+                {{ obj.password }}{{ obj.password.errors.0 }}
+            </div>
+          </div>
+
+         <div class="form-group">
+
+            <label class="col-sm-2 control-label">确认密码</label>
+
+            <div class="col-sm-10">
+
+                {{ obj.confirm_password }}{{ obj.confirm_password.errors.0 }}
+            </div>
+          </div>
+            <span style="color: red">{{ confirm }}</span>
+
+         <div class="form-group">
+
+            <label class="col-sm-2 control-label">邮箱</label>
+
+            <div class="col-sm-10">
+
+                {{ obj.email }}{{ obj.email.errors.0 }}
+
+            </div>
+          </div>
+
+         <div class="form-group">
+
+            <label class="col-sm-2 control-label">昵称</label>
+
+            <div class="col-sm-10">
+
+                {{ obj.nickname }}{{ obj.nickname.errors.0 }}
+
+            </div>
+          </div>
+
+          <div class="form-group">
+
+            <label  class="col-sm-2 control-label">验证码</label>
+
+            <div class="col-sm-10">
+
+              <input type="text" name="check_code"  style="width: 150px;" class="form-control"  placeholder="验证码">
+                {{ checkcode }}
+
+            </div>
+          </div>
+          <div class="check">
+
+          <img id='code' style="width: 120px; height: 30px;" src="/check_code/" alt="">
+
+          <a href="#" onclick="refresh();"> <h4>看不清？</h4></a>
+
+              <b style="color: red;font-size: 22px">{{ msg }}</b>
+
+        </div>
+
+
+          <div class="form-group registerbtn">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> Remember me
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group registerbtn">
+            <div class="col-sm-offset-2 col-sm-10">
+              <input type="submit" class="btn btn-default" value="注册">
+            </div>
+          </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script src="/static/jquery-3.2.1.js"></script>
+<script>
+    function refresh() {
+        document.getElementById('code').src="/check_code/";
+    }
+
+    $(function () {
+        bindAvatar();
+    });
+
+
+
+    function bindAvatar() {
+        if(window.URL.createObectURL){
+            bindAvatar2();
+        }else if(window.FileReader){
+            bindAvatar3();
+        }else{
+            bindAvatar1();
+        }
+    }
+
+    function bindAvatar1() {
+        $('#imgSelect').change(function () {
+            var obj=$(this)[0].files[0];
+        })
+
+    }
+    function bindAvatar2() {
+        $('#imgSelect').change(function () {
+            var obj=$(this)[0].files[0];
+
+            var v=window.URL.createObjectURL(obj);
+            $('#previewimg').attr('src',v);
+            $('#previewimg').load(function () {
+                window.URL.revokeObjectRUL(v);
+            });
+        })
+    }
+
+    function bindAvatar3() {
+        $('#imgSelect').change(function () {
+                var obj=$(this)[0].files[0];
+
+                var reader=new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewimg').attr('src',this.result);
+                };
+                reader.readAsDataURL(obj);
+        })
+    }
+
+//    function upload() {
+//        document.getElementById('ifr').onload=loadiframe;
+//        document.getElementById('f1').submit();
+//
+//    }
+//    function loadiframe() {
+//        var content=document.getElementById('ifr').contentWindow.document.body.innerText;
+//        var tag=document.createElement('img');
+//        tag.src='/'+content;
+//        $('#content3').append(tag);
+//    }
+
+
+</script>
+
+</body>
+
+</html>

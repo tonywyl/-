@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+
+</head>
+<body>
+<div class="login-all ">
+    <div class="login">
+        <div style="position: relative; height: 80px; width: 80px; top: 0px; left: 0px;">
+            <img id='previewimg' src="/static/QQ20170703-1.jpg" alt="">
+            <input id='imgSelect' type="file" style="position: absolute; height: 80px; width: 80px; top: 0px; left: 0px;">
+        </div>
+
+        <form class="form-horizontal" method="POST" action="/login/" novalidate>
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+              <input type="text" name='name' class="form-control" id="inputEmail3" placeholder="用户名">{{ obj.username.errors.0 }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-10">
+              <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="密码">
+            </div>
+          </div>
+            
+         <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">确认密码</label>
+            <div class="col-sm-10">
+              <input type="password" name="password" class="form-control" id="inputPassword5" placeholder="密码">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">验证码</label>
+
+            <div class="col-sm-10">
+
+              <input type="text" name="check_code"  style="width: 150px;" class="form-control" id="inputPassword4" placeholder="验证码">
+            </div>
+          </div>
+          <div class="check">
+          <img id='code' style="width: 120px; height: 30px;" src="/check_code/" alt="">
+          <a href="#" onclick="refresh();"> <h4>看不清？</h4></a>
+        </div>
+          <div class="form-group ">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"> Remember me
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <input type="submit" class="btn btn-default" value="Sign in">
+            </div>
+          </div>
+        </form>
+    </div>
+</div>
+<script src="../static/jquery-3.2.1.js"></script>
+<script>
+    function refresh() {
+        document.getElementById('code').src="/check_code/";
+    }
+
+
+
+//    注册图像注册
+    $(function () {
+        bindAvatar();
+    })
+
+//
+
+    function bindAvatar() {
+        $('#imgSelect').change(function () {
+            var obj=$(this)[0].files[0]
+            //ajax发送后台，并获取路径
+            //img.src=获取路径
+
+
+
+
+
+            //如果用户上传了图像但是没有注册，这个图像就成了废品，这里处理这种情况，这两种方式只兼容IE10以上的浏览器
+//            看QQ截图
+
+        })
+    }
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+</body>
+</html>

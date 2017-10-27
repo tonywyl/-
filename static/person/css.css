@@ -1,0 +1,114 @@
+body{
+            margin: 0;
+        }
+        .pg-header{
+            /*height: 480px;*/
+            height:70px;
+            min-width:190px;
+            background-color: darkgray;
+            line-height: 48px;
+        }
+        .left{
+            float:left;
+        }
+        .right{
+            float: right;
+        }
+        .pg-body{
+            background-color: darkgray;
+        }
+        .pg-header .logo{
+            color: black;
+            font-size: 18px;
+            height: 70px;
+            border-right: 1px solid grey;
+            width:200px;
+            text-align: center;
+
+        }
+        .menus{
+            width:200px;
+            float: left;
+            background-color: darkgray;
+            position: absolute;
+            left: 0;
+            top: 48px;
+            bottom: 0;
+        }
+        .content1{
+            float: left;
+            margin-left: 20px;
+            margin-top: 10px;
+            top: 4px;
+            bottom: 0;
+            /*background-color: greenyellow;*/
+            min-width: 300px;
+            overflow: scroll;
+        }
+        .pg-header .rmenus a{
+            display: inline-block;
+            padding: 0 15px ;
+        }
+        .pg-header .rmenus a:hover{
+            background-color: #2b669a;
+        }
+        .pg-header .avatar{
+            padding: 0 20px;
+
+        }
+        .pg-header .avatar img{
+            border-radius: 50%;
+        }
+        .pg-header .avatar .userinfo{
+            position: absolute;
+            top: 48px;
+            right: 10px;
+            width: 200px;
+            z-index: 2;
+            background-color: azure;
+            display: none;
+
+
+        }
+        .pg-header .avatar .userinfo a{
+
+            background: white;
+            /*border: 1px solid black;*/
+        }
+        .pg-header .avatar:hover .userinfo{
+            display: block;
+
+        }
+        .pg-body .menus a{
+            display: block;
+            padding: 1px 10px;
+            border-bottom: 1px solid white;
+
+        }
+        .cls_manager{
+            text-decoration: none;
+            display: none;
+        }
+        .notification{
+            height:auto;
+            width:300px;
+            border: 1px solid red;
+        }
+        .contentall{
+            position: fixed;
+            width: 100%;
+            height:890px;
+            top:70px;
+            border: 1px solid black;
+        }
+        .content2{
+            width: 800px;
+            height:auto;
+            float: left;
+            margin-left:50px;
+            margin-top: 20px;
+
+        }
+        .infomation{
+            border-bottom: 1px solid grey;
+        }

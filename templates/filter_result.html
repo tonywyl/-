@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% for title in result %}
+    <title>{{ title.title }}</title>
+    {% endfor %}
+</head>
+<body>
+{% block pub_category %}
+{% for row in pub_category_li %}
+<a href="/type/{{ row }}/"> {{ row }}</a>
+{% endfor %}
+{% endblock %}
+
+
+{% block filter_result %}
+{% for res in result %}
+    <div class="left content3">
+    <div class="">
+        <div class=""><a href=""><h3 style="display: inline;">{{ res.title }}</h3></a></div>
+            <a  href="" style="float: left;"><img style="width: 40px;" src="{{ res.publish.user.avatar }}" alt=""></a>
+        <div class="">{{ res.article_summary }}</div>
+        <div class="">
+            <li>
+                <a class="fa fa-user-circle" aria-hidden="true">发布者:{{ res.publish.title }}</a>
+                <a>时间:{{ res.create_time }}</a>
+                <a>评论人数:{{ res.replay_time }}</a>
+                <a class="fa fa-thumbs-o-up" aria-hidden="true">推荐个数:{{ res.up_time }}</a>
+                <a href="" class=" fa fa-thumbs-down">不推荐:{{ res.down_time }} </a>
+            </li>
+        </div>
+    </div>
+    </div>
+{% endfor %}
+    <div class="bottom">
+            <div class="pager">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        {{ page_info.pager|safe }}
+                    </ul>
+                </nav>
+                <p>
+                    <a href="">关于这里 </a>
+                    友情链接：
+                    <a href="">联系别人：110 </a>
+                    <a href="">goodby</a>
+                </p>
+
+            </div>
+            <div class="bottom-info">
+
+            </div>
+    </div>
+{% endblock %}
+
+</body>
+</html>

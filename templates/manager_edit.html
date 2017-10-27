@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/publish/" method="POST" novalidate>
+    {% csrf_token %}
+    {{ obj.content }}
+    {% for  row in article_list %}
+        {{ row.articledetail.content }}
+    {% endfor%}
+<input type="submit" value="submit">
+</form>
+
+<script src="/static/jquery.cookie.js"></script>
+<script src="/static/kindeditor-4.1.10/kindeditor-all.js"></script>
+<script src="/static/jquery-3.2.1.js"></script>
+
+<script>
+    KindEditor.create('#i1',{
+
+        width:'700px',
+        height:'500px',
+        items:[
+            'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+        'anchor', 'link', 'unlink', '|', 'about'
+        ],
+        uploadJson:'/upload_img',
+        extraFielUploadParams:{
+            'csrfmiddlewaretoken':'{{ csrf_token }}'
+        }
+
+    }
+
+    )
+
+
+//    function editarticle() {
+//        $.ajax({
+//            url:'/edit_article/{{ kwargs.article_type_id }}-{{ kwargs.category_id }}-{{ kwargs.tags__nid }}.html',
+//            type:'POST',
+//
+//        })
+//    }
+
+
+
+</script>
+</body>
+</html>

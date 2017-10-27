@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="/static/css.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/commons.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body class="grey-background">
+
+    <div class="pg-header" >
+        <div class="pg-body" style="background-color: #3F87FF; padding: 8px;">
+            <div class="logo left"><a href="">技术论坛</a></div>
+           <div class="left rmenus">
+               {% if type_id %}
+                    <a href="/">全部</a>
+               {% else %}
+                    <a href="/" class="active">全部</a>
+                {% endif %}
+
+               <!--获取category 数据部分-->
+                {% for cate_li in type_choice_list %}
+                    {% if cate_li.0 == type_id %}
+                        <a href="/all/{{ cate_li.0 }}" class="active">{{ cate_li.1 }} </a>
+                    {% else %}
+                        <a href="/all/{{ cate_li.0 }}">{{ cate_li.1 }} </a>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+            {% if username %}
+                <div class="right avatar">
+                    <img src="{{ user_condition.avatar }}" style="width: 40px; height: 40px;" alt="">
+                    <div class="userinfo">
+                        <a href="/managler/">
+                            <li>
+                            管理2
+                            </li>
+                        </a>
+
+                        <a href="/logout/">
+                                <li>注销</li>
+                        </a>
+                    </div>
+                </div>
+                  <div class="right rmenus">
+                        <a href="">{{ user_condition.username }}</a>
+
+                            <a href="/{{ userinfo_list.blog.site }}">我的博客:{{ userinfo_list.blog.site }}</a>
+
+                        <a href="/manager_index.html">管理</a>
+                </div>
+            {% else %}
+                <div class="right rmenus">
+                    <a href="/login/">登录</a>
+                    <a href="/register/">注册</a>
+                </div>
+            {% endif %}
+            </div>
+     </div>
+
+<div class="container visible-sm-2 container-fluid" style="background-color: white">
+    <div class="content2">
+        {% for article in article_list %}
+            <div class="left content3 row">
+                <div class="">
+                    <div class=""><h3 style="display: inline;"><a href="/detail/{{ article.nid }}.html">{{ article.nid }} {{ article.title }} </a></h3></div>
+                        <a  href="" style="float: left;" ><img style="width: 80px;" src="{{ article.blog.user.avatar }}" alt=""></a>
+                    <div class="">{{ article.summary }}</div>
+                    <div class="">
+                        <li>
+                            <a class="fa fa-user-circle" aria-hidden="true">发布者:{{ article.blog.user.username }}</a>
+                            <a href="">时间:{{ article.create_time }}</a>
+                            <a href="">评论人数:{{ article.comment_count }}</a>
+
+                            推荐个数: <a class="fa fa-thumbs-o-up" type="button" aria-hidden="true" id="{{ article.nid }}" onclick="praise(this);" >{{ article.up_count }}</a>
+                                不推荐: <a class=" fa fa-thumbs-down" onclick="down(this);">{{ article.down_count }} </a>
+                            </form>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="left content4">
+            <div class="right_content1">
+
+                <div class="heaer1 btn btn-default btn-lg disabled;" data-reactid=".0.2"><a href="" class=" fa fa-thumbs-down "></a>没有什么推荐的</div>
+
+                <div>
+                    <a href=""> </a>  ----阅读量：
+                </div>
+
+            </div>
+            <div class="right_content1">
+                <div class="heaer1 btn btn-default btn-lg disabled;" data-reactid=".0.2"><a href="" class=" fa fa-thumbs-down "></a>评论</div>
+                    <div>写成这个样。。。。。</div>
+            </div>
+        </div>
+    <div class="bottom">
+        <div class="pager">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                </ul>
+            </nav>
+            <p>
+                <a href="">关于这里 </a>
+                友情链接：
+                <a href="">联系别人：110 </a>
+                <a href="">goodby</a>
+            </p>
+        </div>
+        <div class="bottom-info">
+
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/jquery-3.2.1.js"></script>
+<script src="/static/jquery.cookie.js"></script>
+
+<script>
+    function praise(self) {
+
+        var $article_id=self.id;
+        var $up_times=self.innerText;
+        console.log(self.id,self.innerText);
+//        console.log($.cookie('csrftoken'));
+        $.ajax({
+            url:'/praise/2/',
+            type:'POST',
+            data:{"article_id":$article_id,'val':1},
+            headers:{'X-CSRFToken':$.cookie('csrftoken')},
+            dataType:'json',
+            success:function (ret) {
+                if(ret.status){
+//                    alert('不能再点了😩😩😩😩');
+
+
+                }else{
+                    location.reload();
+
+                }
+
+            }
+        })
+    }
+
+    function down(self) {
+        var $article_id=$(self).siblings()[3].id;
+        var $up_times=self.innerText;
+        console.log($article_id);
+//        console.log($.cookie('csrftoken'));
+        $.ajax({
+            url:'/praise/',
+            type:'POST',
+            data:{"article_id":$article_id,'val':0},
+            headers:{'X-CSRFToken':$.cookie('csrftoken')},
+            dataType:'json',
+            success:function (ret) {
+                if(ret.status){
+//                    alert('不能再点了😩😩😩😩');
+                    console.log(ret.status);
+
+                }else{
+                    location.reload();
+
+
+                }
+
+            }
+        })
+
+    }
+
+</script>
+
+</body>
+</html>

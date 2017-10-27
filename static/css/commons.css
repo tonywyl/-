@@ -1,0 +1,361 @@
+body{
+        margin: 0;
+    background: local;
+    }
+        .pg-header{
+            /*height: 480px;*/
+            /*position: fixed;*/
+            height:48px;
+            min-width:190px;
+            background-color: #283e5c;
+            line-height: 48px;
+
+        }
+        .left{
+            float:left;
+        }
+        .right{
+            float: right;
+        }
+        .pg-body{
+            width:  100%;
+            float: left;
+            position: fixed;
+            z-index: 1;
+            background-color: #3F87FF;
+            box-shadow: 0 2px 0 darkgray;
+            border-radius: 5px;
+        }
+        .pg-body a{
+            text-decoration: none;
+        }
+        .pg-body a:hover{
+            /*background-color: darkgray;*/
+            display: block;
+        }
+        .pg-header .logo{
+            color: white;
+            font-size: 18px;
+            border-right: 1px solid honeydew;
+            width:200px;
+            text-align: center;
+
+        }
+        .pg-header a{
+            color: white;
+        }
+        .menus1{
+            width:200px;
+            float: left;
+            background-color: darkgray;
+            position: absolute;
+            left: 0;
+            top: 48px;
+            bottom: 0;
+        }
+        .content1{
+            position: absolute;
+            z-index: 1;
+            left: 200px;
+            top: 48px;
+            bottom: 0;
+            /*background-color: greenyellow;*/
+            min-width: 300px;
+            overflow: scroll;
+        }
+        .pg-header .rmenus a{
+            display: inline-block;
+            padding: 0 15px ;
+            color: white;
+        }
+        .pg-header .rmenus a:hover{
+            /*background-color: darkgray;*/
+            color: #f5e79e;
+            font-size: 18px;
+            text-decoration: none;
+
+        }
+        .pg-header .avatar{
+            padding: 0 20px;
+            height:50px;
+            height:50px;
+        }
+        .pg-header .avatar img{
+            border-radius: 50%;
+        }
+        .pg-header .avatar .userinfo{
+            position: absolute;
+            top: 55px;
+            right: 10px;
+            width: 200px;
+            z-index: 4;
+            background-color: #3F87FF;
+            display: none;
+        }
+        .pg-header .avatar:hover .userinfo{
+            display: block;
+            /*background: #3F87FF;*/
+
+        }
+        .pg-header .avatar .userinfo li{
+            list-style: none;
+            background: #3F87FF;
+            border: 1px solid black;
+            display: block;
+            color: black;
+        }
+
+        .pg-body .menus a{
+            display: block;
+            /*padding: 1px 10px;*/
+            border-bottom: 1px solid white;
+        }
+        .cls_manager{
+            text-decoration: none;
+            display: none;
+        }
+        .active{
+            border-bottom: 4px solid yellow;
+        }
+        .home-all{
+            border:1px solid black;
+
+        }
+        .home-header{
+            position: relative;
+            top: 0;
+            left: auto;
+            width: 950px;
+            height: 310px;
+            margin: auto;
+            border: none;
+            padding: 0;
+            background: none
+
+        }
+        .home-header-body{
+
+        }
+        .home_content{
+
+        }
+        .home-blog-title{
+            position: relative;
+            top: 130px;
+            left: 0;
+            width: 740px;
+            height: 75px;
+            margin: 0;
+            border: none;
+            padding: 0;
+            background: none
+        }
+        .navigator{
+            position: relative;
+            top: 150px;
+            left: 0;
+            height: 40px;
+
+            clear: both;
+        }
+        #navList{
+            min-height: 40px;
+            float: left
+
+        }
+        #navList li{
+            list-style: none;
+            float: left;
+        }
+        #navList a{
+            display: block;
+            width: 70px;
+            height: 31px;
+            float: left;
+            text-align: center;
+            padding-top: 9px;
+            font-size: 14px;
+            font-family: 微软雅黑, 微软雅黑, 微软雅黑, 微软雅黑
+        }
+
+
+
+        #blogStats{
+            float: right;
+            margin: 0;
+            border: none;
+            padding: 0;
+            background: none;
+            color: #f5e79e;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            text-decoration: none
+        }
+        .blog_stats{
+            background-color: Transparent;
+            display: block;
+        }
+        #stats_post_count{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+
+        #stats_article_count{
+            color: #f5e79e;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+        #home{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            height: auto;
+            margin: 0;
+            border: none;
+            padding: 0;
+            background-color: #f4ede3;
+            background-image: url(/static/img/top.jpg);
+            background-position: top center;
+            background-repeat: no-repeat;
+            font-family: 微软雅黑
+        }
+        #main{
+            position: relative;
+            top: 0;
+            left: auto;
+            width: 950px;
+            height: auto;
+            margin: auto;
+            border: none;
+            padding-right: 0
+        }
+        #mainContent{
+            float: right
+         }
+        #mainContent .forFlow{
+            background-position: right top
+
+        }
+
+        .day{
+            position: relative;
+            width: 690px;
+            height: auto;
+            margin: 0 20px 0 20px;
+            border: none;
+            padding: 0
+        }
+        .postTitle{
+            position: relative;
+            width: 690px;
+            margin: 0;
+            border: none;
+            padding: 0
+        }
+        .postCon{
+            position: relative;
+            width: 690px;
+            height: auto;
+            margin: 10px 0 0 0;
+            border: none;
+            padding: 0;
+            color: #494949;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            text-decoration: none;
+            line-height: 1.4;
+
+
+        }
+        .postDesc{
+            position: relative;
+            width: 690px;
+            height: 30px;
+            margin: 0;
+            border-bottom: #ccc 1px dashed;
+            padding: 0;
+            color: #666;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            text-decoration: none;
+            line-height: 1.4
+        }
+
+        #sideBar{
+            width: 205px;
+            height: auto;
+            float: left
+        }
+        #sideBarMain{
+            position: relative;
+            width: 205px;
+            height: auto;
+            margin: 0;
+            border: none;
+            padding: 0;
+            background: none
+        }
+        .newsItem{
+            position: relative;
+            width: 185px;
+            height: auto;
+            margin: 0 0 15px 0;
+            border: none;
+            padding: 10px;
+            color: #6a6352;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            text-decoration: none
+        }
+        #blog-news{
+            overflow: hidden;
+        }
+        #profile_block{
+            margin-top: 5px;
+            line-height: 1.5;
+            text-align: left
+        }
+
+        #p_b_follow{
+
+        }
+        .catlisttitle{
+            position: relative;
+            top:-10px;
+            left: -10px;
+            width: 195px;
+            height: 19px;
+            margin: 0;
+            border-bottom: #d6dddc 1px solid;
+            padding: 5px 0 0 10px;
+            background-color: Transparent;
+            color: #55626e;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        #leftcontentcontainer{
+            position: relative;
+            width: 205px;
+            height: auto;
+            margin: 0;
+            border: none;
+            padding: 0;
+            background: none
+        }
+        #blog-sidecolumn{
+
+        }

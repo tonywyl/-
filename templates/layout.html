@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layout</title>
+    <link rel="stylesheet" href="/static/css.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/commons.css">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body>
+<div class="pg-header">
+        <div class="pg-body col-xs-12">
+            <div class="logo left"><a href="">技术论坛</a></div>
+            <div class="right avatar ">
+
+                <img src="/static/img/my.jpg" style="width: 40px; height: 40px;" alt="">
+
+                <div class="userinfo">
+                    <a href="">个人资料</a>
+                    <a href="">注销</a>
+                </div>
+
+            </div>
+              <div class="right rmenus">
+                    <a>self</a>
+                    <a>我的博客</a>
+                    <a>管理</a>
+            </div>
+           <div class="left rmenus">
+                <a href="/index/">全部</a>
+               <!--获取category 数据部分-->
+               {% block pub_category %}
+               {% endblock %}
+            </div>
+        </div>
+
+    </div>
+<div class="container visible-sm-2">
+    <div class="content2">
+        {% block filter_result %}
+        {% endblock %}
+
+    </div>
+        <div class="left content4">
+            <div class="right_content1">
+                <div class="heaer1 "><a href="" class=" fa fa-thumbs-down"></a>没有什么推荐的</div>
+            </div>
+            <div class="right_content1">
+                <div class="heaer1">评论</div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

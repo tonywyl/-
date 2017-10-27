@@ -1,0 +1,30 @@
+{% extends 'usermanager_layout.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block permission %}
+{% for row in permission %}
+    <a id="class_manage" onclick="class_manage(this);" style="color: blue;">{{ row.permission__caption }}</a>
+{% endfor %}
+{% endblock %}
+
+    <ul id="cls_manager" class="cls_manager">
+        <p><a href="/class_list/" style="display: block;">}</a></p>
+        <li><a href="/"></a></li>
+    </ul>
+
+
+
+    <!--操作权限-->
+
+        <!--{{ row.action__caption }}-->
+    <!--{{ row.role__caption }}-->
+    <!--{{ row.permission__url }}-->
+
+
+</body>
+</html>
